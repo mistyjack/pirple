@@ -29,14 +29,13 @@ for key in favSong:
     print(key + ":", favSong[key])
     
 def guessKey(key, value):
-    for keys in favSong:
-        if key == keys and value == favSong[keys]:
-            return True
-        else:
-            return False
+    if key in favSong and str(favSong[key]) == value:
+        return True
+    else:
+        return False
 
 gKey = input("Guess a key: ")
-gValue = input("Guess the anser: ")
+gValue = input("Guess the answer: ")
 
 if guessKey(gKey, gValue):
     print("Good of you!")

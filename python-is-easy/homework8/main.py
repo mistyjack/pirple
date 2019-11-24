@@ -21,10 +21,12 @@ def appendFile(name, text):
     existingFile.close()
 
 def writeLine(name, lineNumber, text):
+    existingFile = open(name, "r")
+    existingData = existingFile.readlines()
+ 
+    existingData[int(lineNumber) - 1] = text + "\n"
     existingFile = open(name, "w")
-    for line in existingFile:
-        if existingFile.index(line) == lineNumber:
-            existingFile.writelines(text)
+    existingFile.writelines(existingData)
     existingFile.close()
     
 # files = []
