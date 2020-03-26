@@ -1,7 +1,11 @@
+/*Keeping up with javascript assignment 8*/
+/*Contains a tic tac toe game*/
+
 .box {
     height: 10rem;
     width: 10rem;
     float: left;
+    cursor: pointer;
 }
 
 #wrapper {

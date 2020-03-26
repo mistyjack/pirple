@@ -1,3 +1,8 @@
+/*
+ Keeping up with javascript assignment 8
+ Contains a tic tac toe game
+*/
+
 const player1 = "X";
 const player2 = "O";
 let count = 0;
@@ -38,35 +43,38 @@ const checkGame = (bd, player) => {
 
 // The main function
 const playGame = (e) => {
-    if(count < 9) {
-        e.target.innerHTML = `<h1>${currentPlayer}</h1>`;
-        if(currentPlayer === player1) {
-            e.target.childNodes[0].classList.add("gameText");
-            e.target.childNodes[0].classList.add("gameText--red");
-            arrBoard[parseInt(e.target.attributes[1].value, 10)] = currentPlayer;
-            if(checkGame(arrBoard, currentPlayer)) {
-                alert(currentPlayer + " has Won!");
-                board.removeEventListener("click", playGame);
-                return true;
-            }
-            currentPlayer = player2;
+
+    while(count < 9) {
+        if(e.target.childNodes.length === 0) {
+            e.target.innerHTML = `<h1>${currentPlayer}</h1>`;
+            arrBoard[parseInt(e.target.attributes.id.value, 10)] = currentPlayer;
             count++;
+            
+            if(currentPlayer === player1) {
+                e.target.childNodes[0].classList.add("gameText");
+                e.target.childNodes[0].classList.add("gameText--red");
+                if(checkGame(arrBoard, currentPlayer)) {
+                    alert(currentPlayer + " has Won!");
+                    board.removeEventListener("click", playGame);
+                    return true;
+                }
+                currentPlayer = player2;
+            } else {
+                e.target.childNodes[0].classList.add("gameText");
+                if(checkGame(arrBoard, currentPlayer)) {
+                    alert(currentPlayer + " has Won!");
+                    board.removeEventListener("click", playGame);
+                    return true;
+                }
+                currentPlayer = player1;
+            }
+            
         } else {
-            e.target.childNodes[0].classList.add("gameText");
-            arrBoard[parseInt(e.target.attributes[1].value, 10)] = currentPlayer;
-            if(checkGame(arrBoard, currentPlayer)) {
-                alert(currentPlayer + " has Won!");
-                board.removeEventListener("click", playGame);
-                return true;
-            }
-            currentPlayer = player1;
-            count++;
+            return;
         }
-    } else {
-        alert("That was a draw");
-        board.removeEventListener("click", playGame);
-        return;
     }
+    alert("Cats game!");
+    board.removeEventListener("click", playGame);
 
 };
 
