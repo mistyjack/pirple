@@ -1,0 +1,43 @@
+.box {
+    height: 10rem;
+    width: 10rem;
+    float: left;
+}
+
+#wrapper {
+    max-width: 30.4rem;
+    margin: 8rem auto 0 auto;
+}
+
+#wrapper::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.gameText {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 4rem;
+    margin-top: 2.6rem;
+    margin-left: 3.6rem;
+}
+
+.gameText--red {
+    color: red;
+}
+
+.right {
+    border-right: 3px solid black;
+}
+
+.left {
+    border-left: 3px solid black;
+}
+
+.bottom {
+    border-bottom: 3px solid black;
+}
+
+.top {
+    border-top: 3px solid black;
+}
