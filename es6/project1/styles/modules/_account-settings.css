@@ -1,0 +1,11 @@
+.account-settings {
+    padding: 1rem 0;
+    font-weight: 600;
+}
+
+.account-settings__data {
+    font-weight: normal;
+    margin-left: 4rem;
+    color: maroon;
+    padding: .5rem;
+}

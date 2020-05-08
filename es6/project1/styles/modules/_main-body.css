@@ -1,0 +1,70 @@
+.main-body {
+    background: skyblue;
+    padding: 20px 20px 15px 15px;
+    max-width: 18rem;
+    margin: 1rem auto 0 auto;
+}
+
+.main-body--wide {
+    max-width: 800px;
+    
+}
+
+.main-body--centered {
+    text-align: center;
+}
+
+.main-body--white-bg {
+    background: white;
+}
+
+.main-body__title {
+    font-size: 2rem;
+    color: rgb(12, 147, 236);
+}
+
+.main-body__subtitle {
+    font-size: 1.5rem;
+    color: maroon;
+}
+
+.main-body__text-content {
+    font-size: x-large;
+    color: maroon;
+}
+
+.main-body__text-content--blue {
+    color: rgb(12, 147, 236);
+}
+
+.main-body__input {
+    display: block;
+    height: 2rem;
+    width: 18rem;
+    margin-bottom: .8rem;
+    margin-top: .25rem;
+    border: 2px solid grey;
+}
+
+.main-body__input--submit {
+    cursor: pointer;
+    margin-bottom: .5rem;
+    margin-top: 1rem;
+    border: none;
+}
+
+.main-body__error-msg {
+    color: red;
+    font-size: larger;
+    font-style: italic;
+    margin-top: 0;
+}
+
+.main-body__todo-list {
+    display: block;
+    margin: 1rem .2rem 1rem .5rem;
+    padding: 1rem 0 1rem 1rem;
+    background-color: #fff;
+    color: maroon;
+    cursor: pointer;
+}

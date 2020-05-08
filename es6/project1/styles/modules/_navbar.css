@@ -1,0 +1,26 @@
+.navbar {
+    background: #f0f0f0;
+}
+
+.navbar__logo {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.navbar__links {
+    float: right;
+    margin-right: .2rem;
+    margin-top: -.2rem;
+}
+
+.navbar__links ul::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.navbar__links li {
+    float: left;
+    list-style: none;
+    margin: 0 .5rem;
+}
