@@ -1,13 +1,16 @@
 import {createElem} from "./form.js";
 
+const todo = {};
+
 const addClassesToElem = (elem, ...classes) => {
     for(const currentClass of classes) {
         elem.classList.add(currentClass);
     }
 }
 
-export function makeTodo(data) {
+todo.makeTodo = (data) => {
     let todoDiv = createElem("DIV");
+    todoDiv.id = "todo-div";
     let createListBtn = createElem("BUTTON");
     createListBtn.id = "create-list";
     createListBtn.innerText = "Create new list";
@@ -24,3 +27,5 @@ export function makeTodo(data) {
     // todoDiv.classList.add("main-body--white-bg");
     return todoDiv;
 }
+
+export default todo;

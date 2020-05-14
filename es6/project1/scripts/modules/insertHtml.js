@@ -1,22 +1,24 @@
-export function insertWelcomeMsg(elem, data) {
+const insertHTML = {};
+
+insertHTML.insertWelcomeMsg = (elem, data) => {
     elem.insertAdjacentHTML("afterbegin", `
         <div id="app-title--inserted" class="main-body main-body--white-bg main-body--wide main-body--centered">
             <h3 class="main-body__text-content">Welcome ${data.firstName}!</h3>
             <h3 class="main-body__text-content main-body__text-content--blue">Here are your todos</h3>
         </div>
     `);
-}
+};
 
-export function insertExitLinks(elem) {
+insertHTML.insertExitLinks = (elem) => {
     elem.insertAdjacentHTML("afterbegin", `
         <ul id="ul-exit-links">
             <li><button id="logout">Logout</button></li>
             <li><button id="settings">Account Settings</button></li>
         </ul>
     `);
-}
+};
 
-export function insertSettings(elem, data) {
+insertHTML.insertSettings = (elem, data) => {
     elem.insertAdjacentHTML("afterbegin", `
         <form id="account-settings" class="main-body main-body--wide main-body--white-bg">
             <h3 class="main-body__text-content main-body--centered">Account Settings</h3>
@@ -27,4 +29,15 @@ export function insertSettings(elem, data) {
             <input id="change-settings" type="submit" value="Save & Exit" required>
         </form>
     `);
-}
+};
+
+insertHTML.insertTodoView = (elem) => {
+    elem.insertAdjacentHTML("beforeend", `
+        <form id="add-todo" class="main-body">
+            <input id="todo-item" class="main-body__input" required>
+            <input id="append-item" type="submit" value="Add">
+        </form>
+    `);
+};
+
+export default insertHTML

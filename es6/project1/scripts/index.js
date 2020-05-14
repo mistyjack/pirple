@@ -1,12 +1,12 @@
-import {signUp, returnUsers, logIn} from "./modules/mainEventFunctions.js";
+import mainEvent from "./modules/mainEventFunctions.js";
 
 const signUpBtn = document.getElementById("signup");
 const logInBtn = document.getElementById("login");
 
-signUpBtn.addEventListener("click", signUp);
-logInBtn.addEventListener("click", logIn);
+signUpBtn.addEventListener("click", mainEvent.signUp);
+logInBtn.addEventListener("click", mainEvent.logIn);
 
 
 setTimeout(function() {
-    console.log(returnUsers());
+    console.log(mainEvent.returnUsers());
 }, 20000);

@@ -1,21 +1,25 @@
-export function hideElem(elem) {
+const manipulate = {};
+
+manipulate.hideElem = (elem) => {
     document.getElementById(elem).hidden = true;
 }
 
-export function unhideElem(elem) {
+manipulate.unhideElem = (elem) => {
     document.getElementById(elem).hidden = false;
 }
 
-export function rmvChild(parent, elem) {
+manipulate.rmvChild = (parent, elem) => {
     parent.removeChild(elem);
 }
 
-export function addEvent(elem, eventType, callback) {
+manipulate.addEvent = (elem, eventType, callback) => {
     document.getElementById(elem)
         .addEventListener(eventType, callback)
 }
 
-export function rmvEvent(elem, eventType, callback) {
+manipulate.rmvEvent = (elem, eventType, callback) => {
     document.getElementById(elem)
         .removeEventListener(eventType, callback)
 }
+
+export default manipulate;
