@@ -2,26 +2,28 @@ import manipulate from "./manipulateElems.js";
 import insertHTML from "./insertHtml.js";
 import mainEvent from "./mainEventFunctions.js";
 import mTodo from "./todo.js";
-import eFunc from "./todoEventFunctions.js";
 
 const todoEventFunctions = {};
 const wrapperDiv = document.getElementById("wrapper");
 
 const appendToList = (e) => {
     e.preventDefault();
+    let list = []
     let tempValue = document.getElementById("todo-item").value;
     let tempData = mainEvent.currentUser[0].email;
     let tempMain = mainEvent.allUsers[tempData];
-    tempMain.todolists.push(tempValue);
+    list.push(tempValue);
+    tempMain.todolists.push(list);
     console.log(tempMain.todolists);
     manipulate.rmvChild(wrapperDiv, document.getElementById("add-todo"));
     let todo = mTodo.makeTodo(tempMain);
     wrapperDiv.append(todo)
-    manipulate.addEvent("todo-div", "click", eFunc.editList);
-    manipulate.addEvent("create-list", "click", eFunc.createList);
+    manipulate.addEvent("todo-items", "click", todoEventFunctions.editList);
+    manipulate.addEvent("create-list", "click", todoEventFunctions.createList);
 }
 
 todoEventFunctions.createList = (e) => {
+    e.stopPropagation();
     manipulate.rmvChild(wrapperDiv, document.getElementById("todo-div"));
     insertHTML.insertTodoView(wrapperDiv);
     manipulate.addEvent("add-todo", "submit", appendToList);
@@ -30,6 +32,10 @@ todoEventFunctions.createList = (e) => {
 todoEventFunctions.editList = (e) => {
     e.stopPropagation();
     console.log(e);
+    manipulate.rmvChild(wrapperDiv, document.getElementById("todo-div"));
+    insertHTML.insertTodoHead(wrapperDiv, e.target.innerText);
+    insertHTML.insertTodoView(wrapperDiv);
+    manipulate.addEvent("add-todo", "submit", appendToList);
 }
 
 export default todoEventFunctions;

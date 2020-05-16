@@ -40,4 +40,10 @@ insertHTML.insertTodoView = (elem) => {
     `);
 };
 
+insertHTML.insertTodoHead = (elem, data) => {
+    elem.insertAdjacentHTML("beforeend", `
+        <h3 class="main-body__text-content main-body__text-content--blue">${data}</h3>
+    `);
+};
+
 export default insertHTML

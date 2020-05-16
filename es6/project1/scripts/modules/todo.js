@@ -10,6 +10,8 @@ const addClassesToElem = (elem, ...classes) => {
 
 todo.makeTodo = (data) => {
     let todoDiv = createElem("DIV");
+    let listItems = createElem("DIV");
+    listItems.id = "todo-items";
     todoDiv.id = "todo-div";
     let createListBtn = createElem("BUTTON");
     createListBtn.id = "create-list";
@@ -18,11 +20,12 @@ todo.makeTodo = (data) => {
 
     for(const todoList of data.todolists) {
         let tempItem = document.createElement("span");
-        tempItem.innerText = todoList;
+        tempItem.innerText = todoList[0];
         tempItem.classList.add("main-body__todo-list");
-        todoDiv.append(tempItem);
+        listItems.append(tempItem);
     }
     addClassesToElem(todoDiv, "todo", "main-body", "main-body-wide");
+    todoDiv.append(listItems);
     todoDiv.append(createListBtn);
     // todoDiv.classList.add("main-body--white-bg");
     return todoDiv;
