@@ -90,7 +90,7 @@ const checkLogin = (e) => {
         insertHTML.insertWelcomeMsg(wrapperDiv, users[data.email]);
         let todo = mTodo.makeTodo(users[data.email]);
         wrapperDiv.append(todo)
-        manipulate.addEvent("create-list", "click", updateList);
+        manipulate.addEvent("create-list", "click", eFunc.createList);
         manipulate.hideElem("ul-enter-links");
         insertHTML.insertExitLinks(navLinks);
         manipulate.addEvent("logout", "click", logOut);

@@ -13,14 +13,21 @@ const appendToList = (e) => {
     let tempData = mainEvent.currentUser[0].email;
     let tempMain = mainEvent.allUsers[tempData];
     list.push(tempValue);
-    tempMain.todolists.push(list);
+    tempMain.todolists.push();
     console.log(tempMain.todolists);
     manipulate.rmvChild(wrapperDiv, document.getElementById("add-todo"));
     let todo = mTodo.makeTodo(tempMain);
-    wrapperDiv.append(todo)
+    wrapperDiv.append(todo);
     manipulate.addEvent("todo-items", "click", todoEventFunctions.editList);
     manipulate.addEvent("create-list", "click", todoEventFunctions.createList);
-}
+};
+
+const appendToItem = (e) => {
+    let tempValue = document.getElementById("todo-item").value;
+    let tempData = mainEvent.currentUser[0].email;
+    let tempMain = mainEvent.allUsers[tempData];
+    tempMain.todolists.list.push(tempValue);
+};
 
 todoEventFunctions.createList = (e) => {
     e.stopPropagation();
@@ -35,7 +42,7 @@ todoEventFunctions.editList = (e) => {
     manipulate.rmvChild(wrapperDiv, document.getElementById("todo-div"));
     insertHTML.insertTodoHead(wrapperDiv, e.target.innerText);
     insertHTML.insertTodoView(wrapperDiv);
-    manipulate.addEvent("add-todo", "submit", appendToList);
+    manipulate.addEvent("append-item", "click", appendToItem);  // appendToItem appends a new item to a todo list
 }
 
 export default todoEventFunctions;
