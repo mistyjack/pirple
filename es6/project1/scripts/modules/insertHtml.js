@@ -34,15 +34,19 @@ insertHTML.insertSettings = (elem, data) => {
 insertHTML.insertTodoView = (elem) => {
     elem.insertAdjacentHTML("beforeend", `
         <form id="add-todo" class="main-body">
-            <input id="todo-item" class="main-body__input" required>
+            <input id="todo-item" class="main-body__input">
             <input id="append-item" type="submit" value="Add">
+            <button id="back-btn">Back</button>
         </form>
     `);
 };
 
 insertHTML.insertTodoHead = (elem, data) => {
     elem.insertAdjacentHTML("beforeend", `
-        <h3 class="main-body main-body--white-bg main-body__text-content main-body__text-content--blue">${data}</h3>
+        <div class="main-body main-body--white-bg main-body--wide main-body--centered">
+            <h3 id="list-head" class=" main-body__text-content main-body__text-content--blue main-body__text-content--no-b-margin">${data}</h3>
+            <button id="rename" class="btn--small">Rename</button>
+        <div>
     `);
 };
 

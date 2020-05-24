@@ -22,19 +22,24 @@ const saveChanges = (e) => {
     users[tempVar1.email] = tempVar1;
     tempVar1.email !== tempVar ? users[tempVar] = null : true;
     currentUser[0] = users[tempVar1.email];
-    console.log(users[tempVar1.email]);
+    //console.log(users[tempVar1.email]);
     manipulate.rmvChild(wrapperDiv, document.getElementById("account-settings"));
     insertHTML.insertWelcomeMsg(wrapperDiv, users[tempVar1.email]);
     let todo = mTodo.makeTodo(users[tempVar1.email]);
-    wrapperDiv.append(todo)
+    wrapperDiv.append(todo);
+    manipulate.addEvent("todo-items", "click", eFunc.editList);
+    manipulate.addEvent("create-list", "click", eFunc.createList);
     manipulate.addEvent("settings", "click", accountSettings);
     manipulate.addEvent("logout", "click", logOut);
 };
 
 const logOut = () => {
     if(document.getElementById("app-title--inserted")) {
-        manipulate.rmvChild(wrapperDiv, document.getElementById("app-title--inserted"));
-        manipulate.rmvChild(wrapperDiv, document.getElementById("todo-div"));
+        document.getElementById("app-title--inserted") ? manipulate.rmvChild(wrapperDiv, document.getElementById("app-title--inserted")) : false;
+        document.getElementById("todo-div") ? manipulate.rmvChild(wrapperDiv, document.getElementById("todo-div")) : false;
+        document.getElementById("add-todo") ? manipulate.rmvChild(wrapperDiv, document.getElementById("add-todo")) : false;
+        document.getElementById("list-head") ? manipulate.rmvChild(wrapperDiv, document.getElementById("list-head")) : false;
+        document.getElementById("lists-div") ? manipulate.rmvChild(wrapperDiv, document.getElementById("lists-div")) : false;
         manipulate.hideElem("ul-exit-links");
         manipulate.unhideElem("ul-enter-links");
         manipulate.unhideElem("app-title");
@@ -63,7 +68,7 @@ const accountSettings = () => {
 const processUser = (e) => {
     e.preventDefault();
     let data = obtainSignUpData();
-    data.todolists = [];
+    data.todolists = {};
     users[data.email] = data;
     currentUser.push(data);
     manipulate.hideElem("app-title");
@@ -71,7 +76,7 @@ const processUser = (e) => {
     insertHTML.insertWelcomeMsg(wrapperDiv, data);
     let todo = mTodo.makeTodo(data);
     wrapperDiv.append(todo)
-    manipulate.addEvent("todo-div", "click", eFunc.editList);
+    manipulate.addEvent("todo-items", "click", eFunc.editList);
     manipulate.addEvent("create-list", "click", eFunc.createList);
     manipulate.hideElem("ul-enter-links");
     insertHTML.insertExitLinks(navLinks);
@@ -89,7 +94,8 @@ const checkLogin = (e) => {
         manipulate.rmvChild(wrapperDiv, document.getElementById("log-in-form"));
         insertHTML.insertWelcomeMsg(wrapperDiv, users[data.email]);
         let todo = mTodo.makeTodo(users[data.email]);
-        wrapperDiv.append(todo)
+        wrapperDiv.append(todo);
+        manipulate.addEvent("todo-items", "click", eFunc.editList);
         manipulate.addEvent("create-list", "click", eFunc.createList);
         manipulate.hideElem("ul-enter-links");
         insertHTML.insertExitLinks(navLinks);

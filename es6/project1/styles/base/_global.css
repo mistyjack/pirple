@@ -6,3 +6,8 @@ label {
     font-size: larger;
     color: maroon;
 }
+
+.completed {
+    opacity: .3;
+    text-decoration: line-through;
+}

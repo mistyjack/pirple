@@ -5,6 +5,14 @@
     margin: 1rem auto 0 auto;
 }
 
+.main-body--no-top-margin {
+    margin-top: 0;
+}
+
+.main-body--no-t-padding {
+    padding-top: 1px;
+}
+
 .main-body--wide {
     max-width: 800px;
     
@@ -35,6 +43,10 @@
 
 .main-body__text-content--blue {
     color: rgb(12, 147, 236);
+}
+
+.main-body__text-content--no-b-margin {
+    margin-bottom: 0;
 }
 
 .main-body__input {
