@@ -43,10 +43,19 @@ insertHTML.insertTodoView = (elem) => {
 
 insertHTML.insertTodoHead = (elem, data) => {
     elem.insertAdjacentHTML("beforeend", `
-        <div class="main-body main-body--white-bg main-body--wide main-body--centered">
+        <div id="head-div" class="main-body main-body--white-bg main-body--wide main-body--centered">
             <h3 id="list-head" class=" main-body__text-content main-body__text-content--blue main-body__text-content--no-b-margin">${data}</h3>
             <button id="rename" class="btn--small">Rename</button>
         <div>
+    `);
+};
+
+insertHTML.insertRenameView = (elem) => {
+    elem.insertAdjacentHTML("beforeend", `
+        <form id="rename-list" class="main-body">
+            <input id="new-name" required placeholder="Enter new name here" class="main-body__input">
+            <input type="submit" value="Rename">
+        </form>
     `);
 };
 

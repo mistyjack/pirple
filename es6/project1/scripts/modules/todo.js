@@ -19,10 +19,12 @@ todo.makeTodo = (data) => {
     createListBtn.classList.add("btn--t-margin");
 
     for(const todoList in data.todolists) {
-        let tempItem = document.createElement("span");
-        tempItem.innerText = todoList;
-        tempItem.classList.add("main-body__todo-list");
-        listItems.append(tempItem);
+        if(data.todolists[todoList] !== null) {
+            let tempItem = document.createElement("span");
+            tempItem.innerText = todoList;
+            tempItem.classList.add("main-body__todo-list");
+            listItems.append(tempItem);
+        }
     }
     addClassesToElem(todoDiv, "todo", "main-body", "main-body-wide");
     todoDiv.append(listItems);
