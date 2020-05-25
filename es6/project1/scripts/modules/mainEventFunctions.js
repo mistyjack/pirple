@@ -8,7 +8,6 @@ import eFunc from "./todoEventFunctions.js";
 const mainEvent = {};
 const wrapperDiv = document.getElementById("wrapper");
 const navLinks = document.getElementById("links");
-const users = {};
 const signUpBtn = document.getElementById("signup");
 const logInBtn = document.getElementById("login");
 
@@ -18,14 +17,14 @@ const saveChanges = (e) => {
     e.preventDefault();
     let tempVar = currentUser[0].email;
     let tempVar1 = obtainChangesData();
-    tempVar1.todolists = users[tempVar].todolists;
-    users[tempVar1.email] = tempVar1;
-    tempVar1.email !== tempVar ? users[tempVar] = null : true;
-    currentUser[0] = users[tempVar1.email];
+    tempVar1.todolists = JSON.parse(localStorage.getItem(tempVar)).todolists;
+    localStorage.setItem(tempVar1.email, JSON.stringify(tempVar1));
+    tempVar1.email !== tempVar ? localStorage.setItem(tempVar, "") : true;
+    currentUser[0] = JSON.parse(localStorage.getItem(tempVar1.email));
     //console.log(users[tempVar1.email]);
     manipulate.rmvChild(wrapperDiv, document.getElementById("account-settings"));
-    insertHTML.insertWelcomeMsg(wrapperDiv, users[tempVar1.email]);
-    let todo = mTodo.makeTodo(users[tempVar1.email]);
+    insertHTML.insertWelcomeMsg(wrapperDiv, JSON.parse(localStorage.getItem(tempVar1.email)));
+    let todo = mTodo.makeTodo(JSON.parse(localStorage.getItem(tempVar1.email)));
     wrapperDiv.append(todo);
     manipulate.addEvent("todo-items", "click", eFunc.editList);
     manipulate.addEvent("create-list", "click", eFunc.createList);
@@ -69,38 +68,43 @@ const processUser = (e) => {
     e.preventDefault();
     let data = obtainSignUpData();
     data.todolists = {};
-    users[data.email] = data;
-    currentUser.push(data);
-    manipulate.hideElem("app-title");
-    manipulate.rmvChild(wrapperDiv, document.getElementById("sign-up-form"));
-    insertHTML.insertWelcomeMsg(wrapperDiv, data);
-    let todo = mTodo.makeTodo(data);
-    wrapperDiv.append(todo)
-    manipulate.addEvent("todo-items", "click", eFunc.editList);
-    manipulate.addEvent("create-list", "click", eFunc.createList);
-    manipulate.hideElem("ul-enter-links");
-    insertHTML.insertExitLinks(navLinks);
-    manipulate.addEvent("logout", "click", logOut);
-    manipulate.addEvent("settings", "click", accountSettings);
+    if(!(data.email in localStorage)) {
+        localStorage.setItem(data.email, JSON.stringify(data));
+        currentUser.push(data);
+        manipulate.hideElem("app-title");
+        manipulate.rmvChild(wrapperDiv, document.getElementById("sign-up-form"));
+        insertHTML.insertWelcomeMsg(wrapperDiv, data);
+        let todo = mTodo.makeTodo(data);
+        wrapperDiv.append(todo)
+        manipulate.addEvent("todo-items", "click", eFunc.editList);
+        manipulate.addEvent("create-list", "click", eFunc.createList);
+        manipulate.hideElem("ul-enter-links");
+        insertHTML.insertExitLinks(navLinks);
+        manipulate.addEvent("logout", "click", logOut);
+        manipulate.addEvent("settings", "click", accountSettings);
+        localStorage.setItem(data.email, JSON.stringify(data));
+     } else {
+         alert("Email is taken");
+     }
 };
 
 const checkLogin = (e) => {
     e.preventDefault();
     let data = obtainLogInData();
-    currentUser.push(users[data.email]);
-    if(data.email in users && data.password === users[data.email].password) {
+    currentUser.push(JSON.parse(localStorage.getItem(data.email)));
+    if(data.email in localStorage && data.password === JSON.parse(localStorage.getItem(data.email)).password) {
         document.getElementById("log-in-password").setCustomValidity("");
         manipulate.hideElem("app-title");
         manipulate.rmvChild(wrapperDiv, document.getElementById("log-in-form"));
-        insertHTML.insertWelcomeMsg(wrapperDiv, users[data.email]);
-        let todo = mTodo.makeTodo(users[data.email]);
+        insertHTML.insertWelcomeMsg(wrapperDiv, JSON.parse(localStorage.getItem(data.email)));
+        let todo = mTodo.makeTodo(JSON.parse(localStorage.getItem(data.email)));
         wrapperDiv.append(todo);
         manipulate.addEvent("todo-items", "click", eFunc.editList);
         manipulate.addEvent("create-list", "click", eFunc.createList);
         manipulate.hideElem("ul-enter-links");
         insertHTML.insertExitLinks(navLinks);
         manipulate.addEvent("logout", "click", logOut);
-        manipulate.addEvent("settings", "click", accountSettings);    
+        manipulate.addEvent("settings", "click", accountSettings);   
     } else {
         manipulate.unhideElem("error-msg");
         document.getElementById("log-in-password").valid = false;
@@ -154,11 +158,6 @@ mainEvent.logIn = () => {
     } 
 }
 
-mainEvent.returnUsers = () => {
-    return users;
-}
-
-mainEvent.allUsers = users;
 mainEvent.currentUser = currentUser;
 
 export default mainEvent;
