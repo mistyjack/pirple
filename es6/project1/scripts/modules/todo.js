@@ -1,4 +1,4 @@
-import {createElem} from "./form.js";
+const forms = require("./form.js");
 
 const todo = {};
 
@@ -9,11 +9,11 @@ const addClassesToElem = (elem, ...classes) => {
 }
 
 todo.makeTodo = (data) => {
-    let todoDiv = createElem("DIV");
-    let listItems = createElem("DIV");
+    let todoDiv = forms.createElem("DIV");
+    let listItems = forms.createElem("DIV");
     listItems.id = "todo-items";
     todoDiv.id = "todo-div";
-    let createListBtn = createElem("BUTTON");
+    let createListBtn = forms.createElem("BUTTON");
     createListBtn.id = "create-list";
     createListBtn.innerText = "Create new list";
     createListBtn.classList.add("btn--t-margin");
@@ -34,8 +34,8 @@ todo.makeTodo = (data) => {
 }
 
 todo.makeList = (data) => {
-    let todoDiv = createElem("DIV");
-    let listItems = createElem("DIV");
+    let todoDiv = forms.createElem("DIV");
+    let listItems = forms.createElem("DIV");
     
     listItems.id = "todo-items";
     todoDiv.id = "lists-div";
@@ -57,4 +57,4 @@ todo.makeList = (data) => {
     return todoDiv;
 }
 
-export default todo;
+module.exports = todo;

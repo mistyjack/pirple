@@ -1,15 +1,17 @@
-import manipulate from "./manipulateElems.js";
-import insertHTML from "./insertHtml.js";
-import mainEvent from "./mainEventFunctions.js";
-import mTodo from "./todo.js";
+const mainEvent = require("./mainEventFunctions.js");
+const manipulate = require("./manipulateElems.js");
+const insertHTML = require("./insertHtml.js");
+const mTodo = require("./todo.js");
+
 
 const todoEventFunctions = {};
 const wrapperDiv = document.getElementById("wrapper");
 
+
 const checkTodo = (e) => {
-    let currentUserEmail = mainEvent.currentUser[0].email;
-    let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
     let head = document.getElementById("list-head").innerText;
+    let currentUserEmail = JSON.parse(localStorage.getItem("currentUser"))[0].email;
+    let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
     if(e.target.checked) {
         e.target.parentElement.classList.add("completed");
         tempMain.todolists[head][parseInt(e.target.id)].completed = true;
@@ -25,7 +27,7 @@ const saveName = (e) => {
     e.preventDefault();
     let newHead = document.getElementById("new-name").value;
     let formerHead = document.getElementById("list-head").innerText;
-    let currentUserEmail = mainEvent.currentUser[0].email;
+    let currentUserEmail = JSON.parse(localStorage.getItem("currentUser"))[0].email;
     let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
 
     if(newHead !== "" && !(newHead in tempMain.todolists)) {
@@ -52,7 +54,7 @@ const renameList = (e) => {
 const appendToList = (e) => {
     e.preventDefault();
     let tempValue = document.getElementById("todo-item").value;
-    let currentUserEmail = mainEvent.currentUser[0].email;
+    let currentUserEmail = JSON.parse(localStorage.getItem("currentUser"))[0].email;
     let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
 
     if(tempValue !== "" && !(tempValue in tempMain.todolists)) {
@@ -73,10 +75,8 @@ const appendToList = (e) => {
 const appendToItem = (e) => {
     e.preventDefault();
 
-    //document.getElementById("check") ? manipulate.addEvent("todo-items", "click", checkTodo) : false;
-
     let tempValue = document.getElementById("todo-item").value;
-    let currentUserEmail = mainEvent.currentUser[0].email;
+    let currentUserEmail = JSON.parse(localStorage.getItem("currentUser"))[0].email;
     let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
     let item = {value: tempValue, completed: false};
 
@@ -95,7 +95,7 @@ const appendToItem = (e) => {
 const backToLists = (e) => {
     e.preventDefault();
 
-    let currentUserEmail = mainEvent.currentUser[0].email;
+    let currentUserEmail = JSON.parse(localStorage.getItem("currentUser"))[0].email;
     let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
 
     document.getElementById("lists-div") ? manipulate.rmvChild(wrapperDiv, document.getElementById("lists-div")) : false;
@@ -116,7 +116,7 @@ todoEventFunctions.createList = (e) => {
 }
 
 todoEventFunctions.editList = (e) => {
-    let currentUserEmail = mainEvent.currentUser[0].email;
+    let currentUserEmail = JSON.parse(localStorage.getItem("currentUser"))[0].email;
     let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
 
     e.stopPropagation();
@@ -135,4 +135,4 @@ todoEventFunctions.editList = (e) => {
     }
 }
 
-export default todoEventFunctions;
+module.exports = todoEventFunctions;

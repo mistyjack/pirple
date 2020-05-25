@@ -1,9 +1,10 @@
-import {createSignUpForm, createLogInForm} from "./form.js";
-import {obtainSignUpData, obtainChangesData, obtainLogInData} from "./UserData.js";
-import insertHTML from "./insertHtml.js";
-import manipulate from "./manipulateElems.js";
-import mTodo from "./todo.js";
-import eFunc from "./todoEventFunctions.js";
+const forms = require("./form.js");
+const dataFuncs = require("./userData.js");
+const insertHTML = require("./insertHtml.js");
+const manipulate = require("./manipulateElems.js");
+const mTodo = require("./todo.js")
+const eFunc = require("./todoEventFunctions.js");
+const passwordHash = require('password-hash');
 
 const mainEvent = {};
 const wrapperDiv = document.getElementById("wrapper");
@@ -16,7 +17,7 @@ let currentUser = [];
 const saveChanges = (e) => {
     e.preventDefault();
     let tempVar = currentUser[0].email;
-    let tempVar1 = obtainChangesData();
+    let tempVar1 = dataFuncs.obtainChangesData();
     tempVar1.todolists = JSON.parse(localStorage.getItem(tempVar)).todolists;
     localStorage.setItem(tempVar1.email, JSON.stringify(tempVar1));
     tempVar1.email !== tempVar ? localStorage.setItem(tempVar, "") : true;
@@ -30,6 +31,7 @@ const saveChanges = (e) => {
     manipulate.addEvent("create-list", "click", eFunc.createList);
     manipulate.addEvent("settings", "click", accountSettings);
     manipulate.addEvent("logout", "click", logOut);
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
 };
 
 const logOut = () => {
@@ -37,7 +39,7 @@ const logOut = () => {
         document.getElementById("app-title--inserted") ? manipulate.rmvChild(wrapperDiv, document.getElementById("app-title--inserted")) : false;
         document.getElementById("todo-div") ? manipulate.rmvChild(wrapperDiv, document.getElementById("todo-div")) : false;
         document.getElementById("add-todo") ? manipulate.rmvChild(wrapperDiv, document.getElementById("add-todo")) : false;
-        document.getElementById("list-head") ? manipulate.rmvChild(wrapperDiv, document.getElementById("list-head")) : false;
+        document.getElementById("list-head") ? manipulate.rmvChild(wrapperDiv, document.getElementById("head-div")) : false;
         document.getElementById("lists-div") ? manipulate.rmvChild(wrapperDiv, document.getElementById("lists-div")) : false;
         manipulate.hideElem("ul-exit-links");
         manipulate.unhideElem("ul-enter-links");
@@ -45,6 +47,7 @@ const logOut = () => {
         currentUser = [];
         logInBtn.addEventListener("click", mainEvent.logIn);
         signUpBtn.addEventListener("click", mainEvent.signUp);
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
     } else {
         manipulate.rmvChild(wrapperDiv, document.getElementById("account-settings"));
         manipulate.hideElem("ul-exit-links");
@@ -53,6 +56,7 @@ const logOut = () => {
         currentUser = [];
         logInBtn.addEventListener("click", mainEvent.logIn);
         signUpBtn.addEventListener("click", mainEvent.signUp);
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
     }
 };
 
@@ -66,7 +70,7 @@ const accountSettings = () => {
 
 const processUser = (e) => {
     e.preventDefault();
-    let data = obtainSignUpData();
+    let data = dataFuncs.obtainSignUpData();
     data.todolists = {};
     if(!(data.email in localStorage)) {
         localStorage.setItem(data.email, JSON.stringify(data));
@@ -86,13 +90,14 @@ const processUser = (e) => {
      } else {
          alert("Email is taken");
      }
+     localStorage.setItem("currentUser", JSON.stringify(currentUser));
 };
 
 const checkLogin = (e) => {
     e.preventDefault();
-    let data = obtainLogInData();
+    let data = dataFuncs.obtainLogInData();
     currentUser.push(JSON.parse(localStorage.getItem(data.email)));
-    if(data.email in localStorage && data.password === JSON.parse(localStorage.getItem(data.email)).password) {
+    if(data.email in localStorage && passwordHash.verify(data.password, JSON.parse(localStorage.getItem(data.email)).password)) {
         document.getElementById("log-in-password").setCustomValidity("");
         manipulate.hideElem("app-title");
         manipulate.rmvChild(wrapperDiv, document.getElementById("log-in-form"));
@@ -109,18 +114,19 @@ const checkLogin = (e) => {
         manipulate.unhideElem("error-msg");
         document.getElementById("log-in-password").valid = false;
     }
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
 };
 
 
 mainEvent.signUp = () => {
     if(document.getElementById("log-in-form") == null) {
-        wrapperDiv.append(createSignUpForm());
+        wrapperDiv.append(forms.createSignUpForm());
         signUpBtn.removeEventListener("click", mainEvent.signUp);
         const form = document.getElementById("sign-up-form");
         form.addEventListener("submit", processUser);
     } else if(document.getElementById("log-in-form") && document.getElementById("sign-up-form") == null) {
         manipulate.hideElem("log-in-form");
-        wrapperDiv.append(createSignUpForm());
+        wrapperDiv.append(forms.createSignUpForm());
         logInBtn.addEventListener("click", mainEvent.logIn);
         signUpBtn.removeEventListener("click", mainEvent.signUp);
         manipulate.addEvent("sign-up-form", "submit", processUser);
@@ -137,13 +143,13 @@ mainEvent.signUp = () => {
 
 mainEvent.logIn = () => {
     if(document.getElementById("sign-up-form") == null) {
-        wrapperDiv.append(createLogInForm());
+        wrapperDiv.append(forms.createLogInForm());
         logInBtn.removeEventListener("click", mainEvent.logIn);
         const form = document.getElementById("log-in-form");
         form.addEventListener("submit", checkLogin);
     } else if(document.getElementById("sign-up-form") && document.getElementById("log-in-form") == null) {
         manipulate.hideElem("sign-up-form");
-        wrapperDiv.append(createLogInForm());
+        wrapperDiv.append(forms.createLogInForm());
         signUpBtn.addEventListener("click", mainEvent.signUp);
         logInBtn.removeEventListener("click", mainEvent.logIn);
         const form = document.getElementById("log-in-form");
@@ -158,6 +164,5 @@ mainEvent.logIn = () => {
     } 
 }
 
-mainEvent.currentUser = currentUser;
 
-export default mainEvent;
+module.exports = mainEvent;

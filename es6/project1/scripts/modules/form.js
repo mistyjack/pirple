@@ -1,3 +1,5 @@
+const form = {};
+
 const appendElements = (mainElem, ...elems) => {
     for(const elem of elems) {
         mainElem.append(elem);
@@ -10,19 +12,19 @@ function addToClassList(classToAdd, ...elems) {
     }
 };
 
-export function createElem(elem) {
+form.createElem = (elem) => {
     return document.createElement(elem);
 };
 
 const createLabel = (inputId, text="") => {
-    let newLabel = createElem("LABEL");
+    let newLabel = form.createElem("LABEL");
     newLabel.innerText = text;
     newLabel.htmlFor = inputId;
     return newLabel;
 };
 
 const createInput = (id, placeholder, type="text", value="") => {
-    let newInput = createElem("INPUT");
+    let newInput = form.createElem("INPUT");
     newInput.id = id;
     newInput.required = true;
     newInput.placeholder = placeholder;
@@ -31,8 +33,8 @@ const createInput = (id, placeholder, type="text", value="") => {
     return newInput;
 };
 
-export function createSignUpForm() {
-    const signUpForm = createElem("FORM");
+form.createSignUpForm = () => {
+    const signUpForm = form.createElem("FORM");
     signUpForm.id = "sign-up-form";
     
     let firstNameLabel = createLabel("sign-up-first-name", "first name");
@@ -64,11 +66,11 @@ export function createSignUpForm() {
     return signUpForm;
 };
 
-export function createLogInForm() {
-    const logInForm = createElem("FORM");
+form.createLogInForm = () => {
+    const logInForm = form.createElem("FORM");
     logInForm.id = "log-in-form";
 
-    let errorMsg = createElem("P");
+    let errorMsg = form.createElem("P");
     addToClassList("main-body__error-msg", errorMsg);
     errorMsg.innerText = "Wrong email or password! Try again";
     errorMsg.id = "error-msg";
@@ -91,3 +93,5 @@ export function createLogInForm() {
     addToClassList("main-body", logInForm);
     return logInForm;
 }
+
+module.exports = form;

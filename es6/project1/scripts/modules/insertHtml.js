@@ -59,4 +59,4 @@ insertHTML.insertRenameView = (elem) => {
     `);
 };
 
-export default insertHTML
+module.exports = insertHTML;

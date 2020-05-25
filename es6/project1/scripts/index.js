@@ -1,4 +1,4 @@
-import mainEvent from "./modules/mainEventFunctions.js";
+const mainEvent = require("./modules/mainEventFunctions.js");
 
 const signUpBtn = document.getElementById("signup");
 const logInBtn = document.getElementById("login");

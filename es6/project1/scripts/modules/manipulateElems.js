@@ -22,4 +22,4 @@ manipulate.rmvEvent = (elem, eventType, callback) => {
         .removeEventListener(eventType, callback)
 }
 
-export default manipulate;
+module.exports = manipulate;
