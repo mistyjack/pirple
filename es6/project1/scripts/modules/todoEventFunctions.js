@@ -7,15 +7,17 @@ const todoEventFunctions = {};
 const wrapperDiv = document.getElementById("wrapper");
 
 const checkTodo = (e) => {
-    let tempData = mainEvent.currentUser[0].email;
-    let tempMain = mainEvent.allUsers[tempData];
+    let currentUserEmail = mainEvent.currentUser[0].email;
+    let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
     let head = document.getElementById("list-head").innerText;
     if(e.target.checked) {
         e.target.parentElement.classList.add("completed");
         tempMain.todolists[head][parseInt(e.target.id)].completed = true;
+        localStorage.setItem(currentUserEmail, JSON.stringify(tempMain));
     } else {
         e.target.parentElement.classList.remove("completed");
         tempMain.todolists[head][parseInt(e.target.id)].completed = false;
+        localStorage.setItem(currentUserEmail, JSON.stringify(tempMain));
     }
 };
 
@@ -23,8 +25,8 @@ const saveName = (e) => {
     e.preventDefault();
     let newHead = document.getElementById("new-name").value;
     let formerHead = document.getElementById("list-head").innerText;
-    let tempData = mainEvent.currentUser[0].email;
-    let tempMain = mainEvent.allUsers[tempData];
+    let currentUserEmail = mainEvent.currentUser[0].email;
+    let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
 
     if(newHead !== "" && !(newHead in tempMain.todolists)) {
         tempMain.todolists[newHead] = tempMain.todolists[formerHead];
@@ -33,6 +35,7 @@ const saveName = (e) => {
         manipulate.rmvChild(document.getElementById("head-div"), document.getElementById("rename-list"));
         manipulate.unhideElem("list-head");
         manipulate.unhideElem("rename");
+        localStorage.setItem(currentUserEmail, JSON.stringify(tempMain));
     } else {
         alert("Unacceptable Input! Try again");
     }
@@ -49,8 +52,8 @@ const renameList = (e) => {
 const appendToList = (e) => {
     e.preventDefault();
     let tempValue = document.getElementById("todo-item").value;
-    let tempData = mainEvent.currentUser[0].email;
-    let tempMain = mainEvent.allUsers[tempData];
+    let currentUserEmail = mainEvent.currentUser[0].email;
+    let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
 
     if(tempValue !== "" && !(tempValue in tempMain.todolists)) {
         tempMain.todolists[tempValue] = [];
@@ -60,6 +63,7 @@ const appendToList = (e) => {
         wrapperDiv.append(todo);
         manipulate.addEvent("todo-items", "click", todoEventFunctions.editList);
         manipulate.addEvent("create-list", "click", todoEventFunctions.createList);
+        localStorage.setItem(currentUserEmail, JSON.stringify(tempMain));
     } else {
         alert("Unacceptable Input! Try again");
     }
@@ -72,8 +76,8 @@ const appendToItem = (e) => {
     //document.getElementById("check") ? manipulate.addEvent("todo-items", "click", checkTodo) : false;
 
     let tempValue = document.getElementById("todo-item").value;
-    let tempData = mainEvent.currentUser[0].email;
-    let tempMain = mainEvent.allUsers[tempData];
+    let currentUserEmail = mainEvent.currentUser[0].email;
+    let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
     let item = {value: tempValue, completed: false};
 
     let listHead = document.getElementById("list-head").innerText;
@@ -85,13 +89,14 @@ const appendToItem = (e) => {
     for(const item of document.getElementsByClassName("check")) {
         item.addEventListener("click", checkTodo);
     }
+    localStorage.setItem(currentUserEmail, JSON.stringify(tempMain));
 };
 
 const backToLists = (e) => {
     e.preventDefault();
 
-    let tempData = mainEvent.currentUser[0].email;
-    let tempMain = mainEvent.allUsers[tempData];
+    let currentUserEmail = mainEvent.currentUser[0].email;
+    let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
 
     document.getElementById("lists-div") ? manipulate.rmvChild(wrapperDiv, document.getElementById("lists-div")) : false;
     manipulate.rmvChild(wrapperDiv, document.getElementById("head-div"));
@@ -111,8 +116,8 @@ todoEventFunctions.createList = (e) => {
 }
 
 todoEventFunctions.editList = (e) => {
-    let tempData = mainEvent.currentUser[0].email;
-    let tempMain = mainEvent.allUsers[tempData];
+    let currentUserEmail = mainEvent.currentUser[0].email;
+    let tempMain = JSON.parse(localStorage.getItem(currentUserEmail));
 
     e.stopPropagation();
     //console.log(e);
