@@ -25,7 +25,7 @@ insertHTML.insertSettings = (elem, data) => {
             <p class="account-settings">First name: <input id="changes-firstname" class="account-settings__data" value=${data.firstName} required></p>
             <p class="account-settings">Last name: <input id="changes-lastname" class="account-settings__data" value=${data.lastName} required></p>
             <p class="account-settings">Email: <input id="changes-email" class="account-settings__data" type="email" value=${data.email} required></p>
-            <p class="account-settings">Password: <input id="changes-password" class="account-settings__data" type="password" value=${data.password} required></p>
+            <p class="account-settings">Password: <input id="changes-password" class="account-settings__data" type="password" placeholder="********"></p>
             <input id="change-settings" type="submit" value="Save & Exit" required>
         </form>
     `);

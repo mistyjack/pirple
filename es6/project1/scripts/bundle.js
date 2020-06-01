@@ -1,6 +1,26 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const mainEvent = require("./modules/mainEventFunctions.js");
 
+const appTitle = document.getElementById("app-title");
+const navBar = document.getElementById("nav-bar");
+
+appTitle.innerHTML = (`
+    <h1 class="main-body__title">TODO-LIST Application</h1>
+    <h2 class="main-body__subtitle">Plan your day for optimum productivity</h2>
+`);
+
+navBar.innerHTML = (`
+    <svg class="navbar__logo" height="30" width="120">
+    <text x="0" y="15">TODO-LIST</text>
+    </svg>
+    <div id="links" class="navbar__links">
+    <ul id="ul-enter-links">
+        <li><button id="signup">Sign Up</button></li>
+        <li><button id="login">Log In</button></li>
+    </ul>
+    </div>
+`);
+
 const signUpBtn = document.getElementById("signup");
 const logInBtn = document.getElementById("login");
 
@@ -132,7 +152,7 @@ insertHTML.insertSettings = (elem, data) => {
             <p class="account-settings">First name: <input id="changes-firstname" class="account-settings__data" value=${data.firstName} required></p>
             <p class="account-settings">Last name: <input id="changes-lastname" class="account-settings__data" value=${data.lastName} required></p>
             <p class="account-settings">Email: <input id="changes-email" class="account-settings__data" type="email" value=${data.email} required></p>
-            <p class="account-settings">Password: <input id="changes-password" class="account-settings__data" type="password" value=${data.password} required></p>
+            <p class="account-settings">Password: <input id="changes-password" class="account-settings__data" type="password" placeholder="********"></p>
             <input id="change-settings" type="submit" value="Save & Exit" required>
         </form>
     `);
@@ -178,9 +198,6 @@ const passwordHash = require('password-hash');
 
 const mainEvent = {};
 const wrapperDiv = document.getElementById("wrapper");
-const navLinks = document.getElementById("links");
-const signUpBtn = document.getElementById("signup");
-const logInBtn = document.getElementById("login");
 
 let currentUser = [];
 
@@ -215,7 +232,9 @@ const logOut = () => {
         manipulate.unhideElem("ul-enter-links");
         manipulate.unhideElem("app-title");
         currentUser = [];
+        const logInBtn = document.getElementById("login");
         logInBtn.addEventListener("click", mainEvent.logIn);
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.addEventListener("click", mainEvent.signUp);
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
     } else {
@@ -224,7 +243,9 @@ const logOut = () => {
         manipulate.unhideElem("app-title");
         manipulate.unhideElem("ul-enter-links");
         currentUser = [];
+        const logInBtn = document.getElementById("login");
         logInBtn.addEventListener("click", mainEvent.logIn);
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.addEventListener("click", mainEvent.signUp);
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
     }
@@ -253,6 +274,7 @@ const processUser = (e) => {
         manipulate.addEvent("todo-items", "click", eFunc.editList);
         manipulate.addEvent("create-list", "click", eFunc.createList);
         manipulate.hideElem("ul-enter-links");
+        const navLinks = document.getElementById("links");
         insertHTML.insertExitLinks(navLinks);
         manipulate.addEvent("logout", "click", logOut);
         manipulate.addEvent("settings", "click", accountSettings);
@@ -277,6 +299,7 @@ const checkLogin = (e) => {
         manipulate.addEvent("todo-items", "click", eFunc.editList);
         manipulate.addEvent("create-list", "click", eFunc.createList);
         manipulate.hideElem("ul-enter-links");
+        const navLinks = document.getElementById("links");
         insertHTML.insertExitLinks(navLinks);
         manipulate.addEvent("logout", "click", logOut);
         manipulate.addEvent("settings", "click", accountSettings);   
@@ -291,20 +314,25 @@ const checkLogin = (e) => {
 mainEvent.signUp = () => {
     if(document.getElementById("log-in-form") == null) {
         wrapperDiv.append(forms.createSignUpForm());
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.removeEventListener("click", mainEvent.signUp);
         const form = document.getElementById("sign-up-form");
         form.addEventListener("submit", processUser);
     } else if(document.getElementById("log-in-form") && document.getElementById("sign-up-form") == null) {
         manipulate.hideElem("log-in-form");
         wrapperDiv.append(forms.createSignUpForm());
+        const logInBtn = document.getElementById("login");
         logInBtn.addEventListener("click", mainEvent.logIn);
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.removeEventListener("click", mainEvent.signUp);
         manipulate.addEvent("sign-up-form", "submit", processUser);
     }
     else {
         manipulate.hideElem("log-in-form");
         manipulate.unhideElem("sign-up-form");
+        const logInBtn = document.getElementById("login");
         logInBtn.addEventListener("click", mainEvent.logIn);
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.removeEventListener("click", mainEvent.signUp);
         manipulate.addEvent("sign-up-form", "submit", processUser);
     }
@@ -314,20 +342,25 @@ mainEvent.signUp = () => {
 mainEvent.logIn = () => {
     if(document.getElementById("sign-up-form") == null) {
         wrapperDiv.append(forms.createLogInForm());
+        const logInBtn = document.getElementById("login");
         logInBtn.removeEventListener("click", mainEvent.logIn);
         const form = document.getElementById("log-in-form");
         form.addEventListener("submit", checkLogin);
     } else if(document.getElementById("sign-up-form") && document.getElementById("log-in-form") == null) {
         manipulate.hideElem("sign-up-form");
         wrapperDiv.append(forms.createLogInForm());
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.addEventListener("click", mainEvent.signUp);
+        const logInBtn = document.getElementById("login");
         logInBtn.removeEventListener("click", mainEvent.logIn);
         const form = document.getElementById("log-in-form");
         form.addEventListener("submit", checkLogin);
     } else {
         manipulate.hideElem("sign-up-form");
         manipulate.unhideElem("log-in-form");
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.addEventListener("click", mainEvent.signUp);
+        const logInBtn = document.getElementById("login");
         logInBtn.removeEventListener("click", mainEvent.logIn);
         const form = document.getElementById("log-in-form");
         form.addEventListener("submit", checkLogin);
@@ -587,8 +620,14 @@ dataFuncs.obtainChangesData = () => {
     const firstName = document.getElementById("changes-firstname").value;
     const lastName = document.getElementById("changes-lastname").value;
     const email = document.getElementById("changes-email").value;
-    const hashedPassword = passwordHash.generate(password);
-    return new User(firstName, lastName, email, hashedPassword);
+    if(document.getElementById("changes-password").value !== "" ) {
+        const password = document.getElementById("changes-password").value;
+        const hashedPassword = passwordHash.generate(password);
+        return new User(firstName, lastName, email, hashedPassword);
+    } else {
+        console.log("No password change");
+        return new User(firstName, lastName, email);
+    }    
 };
 
 dataFuncs.obtainLogInData = () => {

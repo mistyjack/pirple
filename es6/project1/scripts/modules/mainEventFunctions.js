@@ -8,9 +8,6 @@ const passwordHash = require('password-hash');
 
 const mainEvent = {};
 const wrapperDiv = document.getElementById("wrapper");
-const navLinks = document.getElementById("links");
-const signUpBtn = document.getElementById("signup");
-const logInBtn = document.getElementById("login");
 
 let currentUser = [];
 
@@ -45,7 +42,9 @@ const logOut = () => {
         manipulate.unhideElem("ul-enter-links");
         manipulate.unhideElem("app-title");
         currentUser = [];
+        const logInBtn = document.getElementById("login");
         logInBtn.addEventListener("click", mainEvent.logIn);
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.addEventListener("click", mainEvent.signUp);
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
     } else {
@@ -54,7 +53,9 @@ const logOut = () => {
         manipulate.unhideElem("app-title");
         manipulate.unhideElem("ul-enter-links");
         currentUser = [];
+        const logInBtn = document.getElementById("login");
         logInBtn.addEventListener("click", mainEvent.logIn);
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.addEventListener("click", mainEvent.signUp);
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
     }
@@ -83,6 +84,7 @@ const processUser = (e) => {
         manipulate.addEvent("todo-items", "click", eFunc.editList);
         manipulate.addEvent("create-list", "click", eFunc.createList);
         manipulate.hideElem("ul-enter-links");
+        const navLinks = document.getElementById("links");
         insertHTML.insertExitLinks(navLinks);
         manipulate.addEvent("logout", "click", logOut);
         manipulate.addEvent("settings", "click", accountSettings);
@@ -107,6 +109,7 @@ const checkLogin = (e) => {
         manipulate.addEvent("todo-items", "click", eFunc.editList);
         manipulate.addEvent("create-list", "click", eFunc.createList);
         manipulate.hideElem("ul-enter-links");
+        const navLinks = document.getElementById("links");
         insertHTML.insertExitLinks(navLinks);
         manipulate.addEvent("logout", "click", logOut);
         manipulate.addEvent("settings", "click", accountSettings);   
@@ -121,20 +124,25 @@ const checkLogin = (e) => {
 mainEvent.signUp = () => {
     if(document.getElementById("log-in-form") == null) {
         wrapperDiv.append(forms.createSignUpForm());
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.removeEventListener("click", mainEvent.signUp);
         const form = document.getElementById("sign-up-form");
         form.addEventListener("submit", processUser);
     } else if(document.getElementById("log-in-form") && document.getElementById("sign-up-form") == null) {
         manipulate.hideElem("log-in-form");
         wrapperDiv.append(forms.createSignUpForm());
+        const logInBtn = document.getElementById("login");
         logInBtn.addEventListener("click", mainEvent.logIn);
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.removeEventListener("click", mainEvent.signUp);
         manipulate.addEvent("sign-up-form", "submit", processUser);
     }
     else {
         manipulate.hideElem("log-in-form");
         manipulate.unhideElem("sign-up-form");
+        const logInBtn = document.getElementById("login");
         logInBtn.addEventListener("click", mainEvent.logIn);
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.removeEventListener("click", mainEvent.signUp);
         manipulate.addEvent("sign-up-form", "submit", processUser);
     }
@@ -144,20 +152,25 @@ mainEvent.signUp = () => {
 mainEvent.logIn = () => {
     if(document.getElementById("sign-up-form") == null) {
         wrapperDiv.append(forms.createLogInForm());
+        const logInBtn = document.getElementById("login");
         logInBtn.removeEventListener("click", mainEvent.logIn);
         const form = document.getElementById("log-in-form");
         form.addEventListener("submit", checkLogin);
     } else if(document.getElementById("sign-up-form") && document.getElementById("log-in-form") == null) {
         manipulate.hideElem("sign-up-form");
         wrapperDiv.append(forms.createLogInForm());
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.addEventListener("click", mainEvent.signUp);
+        const logInBtn = document.getElementById("login");
         logInBtn.removeEventListener("click", mainEvent.logIn);
         const form = document.getElementById("log-in-form");
         form.addEventListener("submit", checkLogin);
     } else {
         manipulate.hideElem("sign-up-form");
         manipulate.unhideElem("log-in-form");
+        const signUpBtn = document.getElementById("signup");
         signUpBtn.addEventListener("click", mainEvent.signUp);
+        const logInBtn = document.getElementById("login");
         logInBtn.removeEventListener("click", mainEvent.logIn);
         const form = document.getElementById("log-in-form");
         form.addEventListener("submit", checkLogin);

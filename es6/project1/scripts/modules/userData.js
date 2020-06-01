@@ -22,8 +22,14 @@ dataFuncs.obtainChangesData = () => {
     const firstName = document.getElementById("changes-firstname").value;
     const lastName = document.getElementById("changes-lastname").value;
     const email = document.getElementById("changes-email").value;
-    const hashedPassword = passwordHash.generate(password);
-    return new User(firstName, lastName, email, hashedPassword);
+    if(document.getElementById("changes-password").value !== "" ) {
+        const password = document.getElementById("changes-password").value;
+        const hashedPassword = passwordHash.generate(password);
+        return new User(firstName, lastName, email, hashedPassword);
+    } else {
+        console.log("No password change");
+        return new User(firstName, lastName, email);
+    }    
 };
 
 dataFuncs.obtainLogInData = () => {
